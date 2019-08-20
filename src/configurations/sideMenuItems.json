@@ -1,11 +1,18 @@
 {
   "items": [
     {
-      "name": "HOME",
+      "name": "Home",
       "type": "button",
       "icon": "home",
       "controller": "home",
-      "customTitle": "Welcome to Boiler Plate"
+      "customTitle": "Home"
+    },
+    {
+      "name": "User",
+      "type": "button",
+      "icon": "person",
+      "controller": "user",
+      "customTitle": "User"
     }
   ]
 }

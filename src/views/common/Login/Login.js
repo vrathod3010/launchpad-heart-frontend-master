@@ -88,7 +88,7 @@ export const Login = () => {
   let content = (
     <div>
       <Grid container spacing={0} justify="center">
-        <Grid className={classes.loginBox} item xs={10} lg={2}>
+        <Grid className={classes.loginBox} item xs={10} lg={3}>
           <Paper className={classes.paper}>
             <Typography component="h1" variant="h5">
               {pageHeading}

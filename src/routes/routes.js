@@ -4,7 +4,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { LoginContext } from 'contexts'
-import { Login, Register, Home } from 'views'
+import { Login, Register, Home, User } from 'views'
 import { Layout } from '../layout';
 
 export const AppRoutes = () => {
@@ -23,6 +23,7 @@ export const AppRoutes = () => {
       <Route exact path='/register' render={() => ((!redirectToLogin ? <Redirect to={{ pathname: '/home' }} /> : <Register />))} />
       <Layout>
         <Route exact path='/home' render={() => ((redirectToLogin ? <Redirect to={{ pathname: '/login' }} /> : <Home />))} />
+        <Route exact path='/user' render={() => ((redirectToLogin ? <Redirect to={{ pathname: '/login' }} /> : <User />))} />
       </Layout>
     </Switch>
   )

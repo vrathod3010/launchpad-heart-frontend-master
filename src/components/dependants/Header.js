@@ -99,7 +99,7 @@ export const Header = () => {
     setAccessToken('')
   }
   let content = (
-    <div style={{display:"flex"}}>
+    <div style={{ display: "flex" }}>
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton

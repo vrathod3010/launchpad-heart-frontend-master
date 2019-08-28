@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom'
 
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
@@ -24,57 +25,70 @@ const useStyles = makeStyles(theme => ({
 
 export default function AlignItemsList() {
     const classes = useStyles();
+    const goToUser = (user) => {
+        console.log(user)
+    }
 
+    const user = {
+        id: 1,
+    }
     return (
         <List className={classes.root}>
-            <ListItemLink href="#simple-list">
-                <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary="Brunch this weekend?"
-                        secondary={
-                            <React.Fragment>
-                                <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                >
-                                    Ali Connors
-              </Typography>
-                                {" — I'll be in your neighborhood doing errands this…"}
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-            </ListItemLink>
+            <NavLink to='user/1' style={{ textDecoration: 'none' }}>
+                <ListItemLink>
+                    <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                            <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary="Brunch this weekend?"
+                            secondary={
+                                <React.Fragment>
+                                    <Typography
+                                        component="span"
+                                        variant="body2"
+                                        className={classes.inline}
+                                        color="textPrimary"
+                                    >
+                                        Ali Connors
+                </Typography>
+                                    {" — I'll be in your neighborhood doing errands this…"}
+                                </React.Fragment>
+                            }
+                        />
+                    </ListItem>
+                </ListItemLink>
+            </NavLink>
+
+
+
 
             <Divider variant="inset" component="li" />
-            <ListItemLink href="#simple-list">
-                <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                        <Avatar alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary="Summer BBQ"
-                        secondary={
-                            <React.Fragment>
-                                <Typography
-                                    component="span"
-                                    variant="body2"
-                                    className={classes.inline}
-                                    color="textPrimary"
-                                >
-                                    to Scott, Alex, Jennifer
+            <NavLink to="/user/2" style={{ textDecoration: 'none' }}>
+                <ListItemLink>
+                    <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                            <Avatar alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg" />
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary="Summer BBQ"
+                            secondary={
+                                <React.Fragment>
+                                    <Typography
+                                        component="span"
+                                        variant="body2"
+                                        className={classes.inline}
+                                        color="textPrimary"
+                                    >
+                                        to Scott, Alex, Jennifer
               </Typography>
-                                {" — Wish I could come, but I'm out of town this…"}
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>
-            </ListItemLink>
+                                    {" — Wish I could come, but I'm out of town this…"}
+                                </React.Fragment>
+                            }
+                        />
+                    </ListItem>
+                </ListItemLink>
+            </NavLink>
 
             <Divider variant="inset" component="li" />
             <ListItemLink href="#simple-list">

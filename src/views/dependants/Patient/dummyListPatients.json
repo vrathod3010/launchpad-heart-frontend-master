@@ -1,0 +1,31 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "name": "Alex",
+      "contact": "0123456789",
+      "address": "01 Elgar Road, Burwood, VIC",
+      "dob": "01/01/1980",
+      "email": "alex@deakin.edu.au",
+      "blood pressure": "120/80"
+    },
+    {
+      "id": 2,
+      "name": "Bob",
+      "contact": "0123456789",
+      "address": "02 Elgar Road, Burwood, VIC",
+      "dob": "02/02/1980",
+      "email": "bob@deakin.edu.au",
+      "blood pressure": "120/80"
+    },
+    {
+      "id": 3,
+      "name": "Carol",
+      "contact": "0123456789",
+      "address": "03 Elgar Road, Burwood, VIC",
+      "dob": "03/03/1980",
+      "email": "carol@deakin.edu.au",
+      "blood pressure": "120/80"
+    }
+  ]
+}

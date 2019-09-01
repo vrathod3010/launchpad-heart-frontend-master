@@ -13,6 +13,13 @@
       "icon": "person",
       "controller": "user",
       "customTitle": "User"
+    },
+    {
+      "name": "PATIENT",
+      "type": "button",
+      "icon": "accessible",
+      "controller": "patient",
+      "customTitle": "Patients Information"
     }
   ]
 }

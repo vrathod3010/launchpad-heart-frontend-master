@@ -2,30 +2,123 @@
   "patients": [
     {
       "id": 1,
-      "name": "Alex",
-      "contact": "0123456789",
-      "address": "01 Elgar Road, Burwood, VIC",
-      "dob": "01/01/1980",
-      "email": "alex@deakin.edu.au",
-      "blood pressure": "120/80"
+      "title": "Mr",
+      "firstName": "Hugh",
+      "middleName": "Michael",
+      "lastName": "Jackman",
+      "dob": "01/01/1970",
+      "medNumber": "0123456789",
+      "sex": "male",
+      "marialStatus": "Singled",
+      "contact": {
+        "address": "01 Elgar Road",
+        "suburb": "Burwood",
+        "postcode": "3125",
+        "state": "VIC",
+        "country": "Australia",
+        "homePhone": "0123456789",
+        "mobileNumber": "0123456789",
+        "email": "hugh.jackman@deakin.edu.au",
+        "emergencyContact": "Deakin University",
+        "emergencyPhone": "0123456789"
+      },
+      "insurance": {
+        "insuranceProvider": "Bupa",
+        "insuranceNumber": "0123456789",
+        "effectiveDate": "01/01/2018",
+        "expiryDate": "01/01/2020"
+      },
+      "healthData": {
+        "pulseRate": "90",
+        "bloodGlucose": "4.5",
+        "bloodPressure": "120/80",
+        "Weight": "70",
+        "Height": "185",
+        "bloodOxygen": "85",
+        "sleep": "7",
+        "step": "5000",
+        "distance": "3"
+      }
     },
     {
       "id": 2,
-      "name": "Bob",
-      "contact": "0123456789",
-      "address": "02 Elgar Road, Burwood, VIC",
-      "dob": "02/02/1980",
-      "email": "bob@deakin.edu.au",
-      "blood pressure": "120/80"
+      "title": "Mrs",
+      "firstName": "Nicole",
+      "middleName": "Mary",
+      "lastName": "Kidman",
+      "dob": "01/01/1970",
+      "medNumber": "0123456789",
+      "sex": "female",
+      "marialStatus": "Married",
+      "contact": {
+        "address": "02 Elgar Road",
+        "suburb": "Darlinghurst",
+        "postcode": "1300",
+        "state": "NSW",
+        "country": "Australia",
+        "homePhone": "0123456789",
+        "mobileNumber": "0123456789",
+        "email": "nicole.kidmann@deakin.edu.au",
+        "emergencyContact": "Deakin University",
+        "emergencyPhone": "0123456789"
+      },
+      "insurance": {
+        "insuranceProvider": "Medibank",
+        "insuranceNumber": "0123456789",
+        "effectiveDate": "01/01/2018",
+        "expiryDate": "01/01/2020"
+      },
+      "healthData": {
+        "pulseRate": "95",
+        "bloodGlucose": "5.5",
+        "bloodPressure": "110/80",
+        "Weight": "55",
+        "Height": "175",
+        "bloodOxygen": "90",
+        "sleep": "8",
+        "step": "3000",
+        "distance": "1"
+      }
     },
     {
       "id": 3,
-      "name": "Carol",
-      "contact": "0123456789",
-      "address": "03 Elgar Road, Burwood, VIC",
-      "dob": "03/03/1980",
-      "email": "carol@deakin.edu.au",
-      "blood pressure": "120/80"
+      "title": "Mr",
+      "firstName": "Christopher",
+      "middleName": "",
+      "lastName": "Hemsworth",
+      "dob": "01/01/1970",
+      "medNumber": "0123456789",
+      "sex": "male",
+      "marialStatus": "Married",
+      "contact": {
+        "address": "03 Elgar Road",
+        "suburb": "Darlinghurst",
+        "postcode": "1300",
+        "state": "NSW",
+        "country": "Australia",
+        "homePhone": "0123456789",
+        "mobileNumber": "0123456789",
+        "email": "chris.hemsworth@deakin.edu.au",
+        "emergencyContact": "Deakin University",
+        "emergencyPhone": "0123456789"
+      },
+      "insurance": {
+        "insuranceProvider": "Medibank",
+        "insuranceNumber": "0123456789",
+        "effectiveDate": "01/01/2018",
+        "expiryDate": "01/01/2020"
+      },
+      "healthData": {
+        "pulseRate": "95",
+        "bloodGlucose": "5.5",
+        "bloodPressure": "110/80",
+        "Weight": "85",
+        "Height": "190",
+        "bloodOxygen": "90",
+        "sleep": "8",
+        "step": "3000",
+        "distance": "1"
+      }
     }
   ]
 }

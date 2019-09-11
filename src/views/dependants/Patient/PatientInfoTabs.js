@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React, {useContext}from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
+import {PatientPersonalInfomation} from './PatientPersonalInfomation';
 import { SelectedPatientContext } from '../../../contexts/patient/SelectedPatientContext';
 
 const TabPanel = (props)=>{
@@ -44,7 +43,12 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
-  textField: {
+  smallTextField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 100,
+  },
+  mediumTextField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: 200,
@@ -70,30 +74,7 @@ export const PatientInfoTabs = ()=>{
       </Tabs>
       
       <TabPanel value={value} index={0}>
-        <TextField
-          disabled
-          id="standard-disabled"
-          label="Patient Id"
-          defaultValue={selectedPatient.id}
-          className={classes.textField}
-          margin="normal"
-        />
-        <TextField
-          disabled
-          id="standard-disabled"
-          label="Patient Name"
-          defaultValue={selectedPatient.name}
-          className={classes.textField}
-          margin="normal"
-        />
-        <TextField
-          disabled
-          id="standard-disabled"
-          label="Contact number"
-          defaultValue={selectedPatient.contact}
-          className={classes.textField}
-          margin="normal"
-        />
+        <PatientPersonalInfomation/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two

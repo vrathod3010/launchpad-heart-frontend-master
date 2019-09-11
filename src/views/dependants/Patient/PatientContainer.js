@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SelectedPatientProvider } from '../../../contexts/patient/SelectedPatientContext';
 import {PatientList} from './PatientList';
 import {PatientInfoTabs} from './PatientInfoTabs';

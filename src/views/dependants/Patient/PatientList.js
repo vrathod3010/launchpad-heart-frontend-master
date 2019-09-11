@@ -17,19 +17,19 @@ export const PatientList = () => {
   const {selectedPatient} = useContext(SelectedPatientContext);
   const {setSelectedPatient} = useContext(SelectedPatientContext);
   const classes = useStyles();
-  const renderPatientListItem = (value, key) =>{
+  const renderPatientListItem = (patient) =>{
     return (
-      <ListItem button selected={selectedPatient === value} onClick = {()=>{
-        setSelectedPatient(value);
+      <ListItem key = {patient.id} button selected={selectedPatient === patient} onClick = {()=>{
+        setSelectedPatient(patient);
       }}>
-        <ListItemText primary = {value.name}/>
+        <ListItemText primary = {patient.firstName + " " + patient.middleName + " " + patient.lastName}/>
       </ListItem>
     )
   }
   return (
     <List className={classes.root} >
-      {listPatients.map((value, i) =>{
-          return renderPatientListItem(value, i);
+      {listPatients.map((patient) =>{
+          return renderPatientListItem(patient);
         })
       }
     </List>

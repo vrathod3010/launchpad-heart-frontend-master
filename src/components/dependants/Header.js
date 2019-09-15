@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
-import { AppBar, Toolbar, Typography, makeStyles, Drawer, Divider, IconButton } from '@material-ui/core'
+import { AppBar, Toolbar, Typography, makeStyles, Drawer, Divider, IconButton,Badge,Popover, List, ListItem,ListItemAvatar, Avatar, ListItemText } from '@material-ui/core'
 import { LoginContext, LayoutContext } from 'contexts';
 import { SideMenuItems } from './SideMenuItems';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -87,6 +88,9 @@ export const Header = () => {
   const [open, setOpen] = useState(false);
   const { setAccessToken, setLoginStatus } = useContext(LoginContext)
   const { pageTitle } = useContext(LayoutContext)
+  const [showPopOver,setShowPopOver] = useState(null);
+  const [notifications, setNotifications] = useState([{patient:"Dave",condition:"Blood pressure high"},{patient:"John Doe",condition:"High fever"},
+  {patient:"Sadia",condition:"Headache, Back pain etc"},{patient:"Imam",condition:"Insomnia"},{patient:"Safat",condition:"Heart Palpitations"},{patient:"Ancoln",condition:"Dead"}]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -98,6 +102,9 @@ export const Header = () => {
     setLoginStatus(false);
     setAccessToken('')
   }
+  const openNotification = Boolean(showPopOver);
+  const id = openNotification ? 'notification-popover' : undefined;
+  
   let content = (
     <div style={{ display: "flex" }}>
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -114,6 +121,42 @@ export const Header = () => {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {pageTitle}
           </Typography>
+          <IconButton color={"inherit"}
+                                    onClick={(event)=>{setShowPopOver(event.currentTarget)}}
+                                    aria-describedby={id}
+                        >
+                            <Badge badgeContent={notifications.length} color={"secondary"}>
+                                <NotificationsIcon/>
+                            </Badge>
+            </IconButton>
+            <Popover
+                            id={id}
+                            open={openNotification}
+                            anchorEl={showPopOver}
+                            onClose={()=>{setShowPopOver(null)}}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'center',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'center',
+                            }}
+                        ><List
+                          style={{
+                            width: '100%',
+                            maxWidth: '20em'
+                        }}
+                          >
+                              {notifications.map((obj,i)=>{
+                                return <ListItem>
+                                   <ListItemAvatar>
+                                              <Avatar style={{margin:'10'}}>{obj.patient.charAt(0)}</Avatar>
+                                          </ListItemAvatar>
+                                          <ListItemText primary={obj.patient} secondary={obj.condition}/>
+                                </ListItem>;
+                              })}
+                          </List></Popover>
           <IconButton color="inherit" onClick={() => logout()}>
             <ExitToApp />
           </IconButton>

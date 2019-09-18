@@ -2,11 +2,15 @@ import React, { useEffect } from 'react'
 import { SelectedPatientProvider } from '../../../contexts/patient/SelectedPatientContext';
 import {PatientList} from './PatientList';
 import {PatientInfoTabs} from './PatientInfoTabs';
-import { Grid } from '@material-ui/core';
+import {PatientHeader} from './PatientHeader';
+import { Grid, TextField, Container } from '@material-ui/core';
 
 export const PatientContainer = () => {
   return (
     <SelectedPatientProvider>
+      <Grid container spacing={3}>
+        <PatientHeader/>
+      </Grid>
       <Grid container spacing={3}>
         <Grid item xs = {3}>
           <PatientList/>

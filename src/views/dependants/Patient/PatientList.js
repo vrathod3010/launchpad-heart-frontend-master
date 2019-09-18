@@ -13,18 +13,23 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const PatientList = () => {
-  const listPatients = dummyListPatients.patients;
-  const {selectedPatient} = useContext(SelectedPatientContext);
-  const {setSelectedPatient} = useContext(SelectedPatientContext);
+  const {listPatients, setListPatients} = useContext(SelectedPatientContext);
+  setListPatients(dummyListPatients.patients); //TODO: take data from database
+  const {selectedPatient, setSelectedPatient} = useContext(SelectedPatientContext);
+  const {query, setQuery} = useContext(SelectedPatientContext);
   const classes = useStyles();
   const renderPatientListItem = (patient) =>{
-    return (
-      <ListItem key = {patient.id} button selected={selectedPatient === patient} onClick = {()=>{
-        setSelectedPatient(patient);
-      }}>
-        <ListItemText primary = {patient.firstName + " " + patient.middleName + " " + patient.lastName}/>
-      </ListItem>
-    )
+    let lowerCaseQuery = query.toLowerCase();
+    if (patient.firstName.toLowerCase().includes(lowerCaseQuery) || patient.middleName.toLowerCase().includes(lowerCaseQuery) 
+      || patient.lastName.toLowerCase().includes(lowerCaseQuery))
+      return (
+        <ListItem key = {patient.id} button selected={selectedPatient === patient} onClick = {()=>{
+          setSelectedPatient(patient);
+        }}>
+          <ListItemText primary = {patient.firstName + " " + patient.middleName + " " + patient.lastName}/>
+        </ListItem>
+      )
+    else return (<div></div>)
   }
   return (
     <List className={classes.root} >

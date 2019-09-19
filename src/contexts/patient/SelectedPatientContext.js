@@ -5,5 +5,7 @@ export const SelectedPatientContext = createContext();
 export const SelectedPatientProvider = (props) => {
   const { children } = props;
   const [selectedPatient, setSelectedPatient] = useState(null);
-  return <SelectedPatientContext.Provider value={{ selectedPatient, setSelectedPatient }} >{children}</SelectedPatientContext.Provider>
+  const [listPatients, setListPatients] = useState([]);
+  const [query, setQuery] = useState("");
+  return <SelectedPatientContext.Provider value={{ listPatients, setListPatients, selectedPatient, setSelectedPatient, query, setQuery }} >{children}</SelectedPatientContext.Provider>
 }

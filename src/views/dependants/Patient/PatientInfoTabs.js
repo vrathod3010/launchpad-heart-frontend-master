@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {PatientPersonalInfomation} from './PatientPersonalInfomation';
+import {PatientHealthData} from './PatientHealthData';
 import { SelectedPatientContext } from '../../../contexts/patient/SelectedPatientContext';
 
 const TabPanel = (props)=>{
@@ -77,7 +78,7 @@ export const PatientInfoTabs = ()=>{
         <PatientPersonalInfomation/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <PatientHealthData/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three

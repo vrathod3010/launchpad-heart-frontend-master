@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {TextField, Typography} from '@material-ui/core';
-import { SelectedPatientContext } from '../../../contexts/patient/SelectedPatientContext';
+import { PatientsContext } from 'contexts/patient/PatientsContext';
 
 const useStyles = makeStyles(theme => ({
   searchBar:{
@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 export const PatientHeader = () => {
   const classes = useStyles();
-  const {query, setQuery} = useContext(SelectedPatientContext);
+  const {query, setQuery} = useContext(PatientsContext);
   return (
     <TextField
         id="patient-search"

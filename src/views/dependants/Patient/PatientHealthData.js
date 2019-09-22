@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Label, Tooltip } from "recharts";
 import { makeStyles } from '@material-ui/core/styles';
 import {Switch, Collapse, FormControlLabel, TextField, Container, Divider} from '@material-ui/core';
-import { SelectedPatientContext } from '../../../contexts/patient/SelectedPatientContext';
+import { PatientsContext } from '../../../contexts/patient/PatientsContext';
 
 
 
@@ -58,7 +58,7 @@ export const PatientHealthData = () => {
   const [pulseRateChecked, setpulseRateChecked] = React.useState(false);
   const [bloodGlucoseChecked, setbloodGlucoseChecked] = React.useState(false);
   const [bloodOxygenChecked, setbloodOxygenChecked] = React.useState(false);
-  const {selectedPatient} = useContext(SelectedPatientContext);
+  const {selectedPatient} = useContext(PatientsContext);
 
   let pulseRates = selectedPatient.healthData.pulseRates;
   let bloodGlucoses = selectedPatient.healthData.bloodGlucoses;

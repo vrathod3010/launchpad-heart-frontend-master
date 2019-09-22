@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {TextField, Divider, Typography} from '@material-ui/core';
-import { SelectedPatientContext } from '../../../contexts/patient/SelectedPatientContext';
+import { PatientsContext } from 'contexts/patient/PatientsContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 export const PatientPersonalInfomation = () =>{
   const classes = useStyles();
-  const {selectedPatient} = useContext(SelectedPatientContext);
+  const {selectedPatient} = useContext(PatientsContext);
   return (
     <div>
       <TextField

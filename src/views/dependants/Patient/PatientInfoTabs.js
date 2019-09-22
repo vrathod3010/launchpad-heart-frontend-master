@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import {PatientPersonalInfomation} from './PatientPersonalInfomation';
 import {PatientHealthData} from './PatientHealthData';
-import { SelectedPatientContext } from '../../../contexts/patient/SelectedPatientContext';
+import { PatientsContext } from 'contexts/patient/PatientsContext';
 
 const TabPanel = (props)=>{
   const { children, value, index, ...other } = props;
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 export const PatientInfoTabs = ()=>{
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const {selectedPatient} = useContext(SelectedPatientContext);
+  const {selectedPatient} = useContext(PatientsContext);
 
   const handleChange = (event, newValue)=>{
     setValue(newValue);

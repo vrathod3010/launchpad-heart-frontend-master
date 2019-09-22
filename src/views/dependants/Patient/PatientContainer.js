@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { SelectedPatientProvider } from '../../../contexts/patient/SelectedPatientContext';
+import { PatientsProvider } from '../../../contexts/patient/PatientsContext';
 import {PatientList} from './PatientList';
 import {PatientInfoTabs} from './PatientInfoTabs';
 import {PatientHeader} from './PatientHeader';
@@ -7,7 +7,7 @@ import { Grid, TextField, Container } from '@material-ui/core';
 
 export const PatientContainer = () => {
   return (
-    <SelectedPatientProvider>
+    <PatientsProvider>
       <Grid container spacing={3}>
         <PatientHeader/>
       </Grid>
@@ -19,6 +19,6 @@ export const PatientContainer = () => {
           <PatientInfoTabs/>
         </Grid>
       </Grid>
-    </SelectedPatientProvider>
+    </PatientsProvider>
   )
 }

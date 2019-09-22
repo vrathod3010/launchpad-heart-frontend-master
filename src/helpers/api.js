@@ -1,4 +1,5 @@
 import { AccessToken } from 'contexts/helpers'
+import {axiosInstance} from './index'
 
 class API {
   displayAccessToken = () => {
@@ -10,6 +11,15 @@ class API {
     if (data)
       return callback(true)
   }
+
+  getPatients(stateHandler) {
+    axiosInstance.get("/patients")
+      .then((response) => {
+        //console.log(response.data);
+        stateHandler(response.data);
+    })
+  }
+  
 }
 const instance = new API();
 export default instance;

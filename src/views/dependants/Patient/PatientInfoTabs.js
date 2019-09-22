@@ -78,7 +78,7 @@ export const PatientInfoTabs = ()=>{
         <PatientPersonalInfomation/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PatientHealthData/>
+        {/* <PatientHealthData/> */}
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three

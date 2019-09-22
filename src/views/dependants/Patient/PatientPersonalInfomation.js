@@ -1,24 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {TextField, Divider, Typography} from '@material-ui/core';
+import {Grid, TextField, Divider, Typography} from '@material-ui/core';
 import { PatientsContext } from 'contexts/patient/PatientsContext';
+import { API } from 'helpers/index';
+import {LoadingComponent} from 'components/common/loading';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
-  smallTextField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(3),
-    width: 100,
-  },
-  mediumTextField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(3),
-    width: 200,
-  },
-  fullTextField: {
+  textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(3),
   },
@@ -31,273 +23,360 @@ const useStyles = makeStyles(theme => ({
 export const PatientPersonalInfomation = () =>{
   const classes = useStyles();
   const {selectedPatient} = useContext(PatientsContext);
+  const [contact, setContact] = useState({});
+  const [insurance, setInsurance] = useState({});
+  const [contactResponse, setContactResponse] = useState(false);
+  const [insuranceResponse, setInsuranceResponse] = useState(false);
+  useEffect(()=>{
+    setContactResponse(false);
+    setInsuranceResponse(false);
+    API.getPatientContact(selectedPatient.id, setContact, setContactResponse);
+    API.getPatientInsurance(selectedPatient.id, setInsurance, setInsuranceResponse);
+  },[selectedPatient])
+  console.log(contact);
   return (
     <div>
-      <TextField
-          id="patient-id"
-          label="Patient ID"
-          value={selectedPatient.id}
-          className={classes.fullTextField}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="patient-title"
-          label="Title"
-          value={selectedPatient.title}
-          className={classes.smallTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="first-name"
-          label="First Name"
-          value={selectedPatient.firstName}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="middle-name"
-          label="Middle Name"
-          value={selectedPatient.middleName}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="last-name"
-          label="Last Name"
-          value={selectedPatient.lastName}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <Divider className={classes.divider} variant="middle" />
-        <TextField
-          id="dob"
-          label="Date of Birth"
-          value={selectedPatient.dob}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="sex"
-          label="Sex"
-          value={selectedPatient.sex}
-          className={classes.smallTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="marial-status"
-          label="Marial Status"
-          value={selectedPatient.marialStatus}
-          className={classes.smallTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="medical-number"
-          label="Medical Number"
-          value={selectedPatient.medNumber}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <Divider className={classes.divider} variant="middle" />
-        <Typography component="h3" variant="h5">
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <TextField
+            id="patient-id"
+            label="Patient ID"
+            value={selectedPatient.id}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField
+            id="patient-title"
+            label="Title"
+            value={selectedPatient.title}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={3}>
+          <TextField
+            id="first-name"
+            label="First Name"
+            value={selectedPatient.firstName}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            id="middle-name"
+            label="Middle Name"
+            value={selectedPatient.middleName}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            id="last-name"
+            label="Last Name"
+            value={selectedPatient.lastName}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="dob"
+            label="Date of Birth"
+            value={selectedPatient.dateOfBirth}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            id="sex"
+            label="Sex"
+            value={selectedPatient.sex}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <TextField
+            id="marial-status"
+            label="Marial Status"
+            value={selectedPatient.maritalStatus}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            id="medical-number"
+            label="Medical Number"
+            value={selectedPatient.medicareNumber}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+          />
+        </Grid>
+      </Grid>
+      <Divider className={classes.divider} variant="middle" />
+      <Typography component="h3" variant="h5">
             Contact
-        </Typography>
-        <TextField
-          id="address"
-          label="Adress"
-          value={selectedPatient.contact.address}
-          className={classes.fullTextField}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="suburb"
-          label="Suburb"
-          value={selectedPatient.contact.suburb}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="postcode"
-          label="Postcode"
-          value={selectedPatient.contact.postcode}
-          className={classes.smallTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="state"
-          label="State"
-          value={selectedPatient.contact.state}
-          className={classes.smallTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="country"
-          label="Country"
-          value={selectedPatient.contact.country}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="home-phone"
-          label="Home Phone"
-          value={selectedPatient.contact.homePhone}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="mobile-number"
-          label="Mobile Number"
-          value={selectedPatient.contact.mobileNumber}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="email"
-          label="Email"
-          value={selectedPatient.contact.email}
-          className={classes.fullTextField}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="emergency-contact"
-          label="Emergencyy Contact"
-          value={selectedPatient.contact.emergencyContact}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="emergency-phone"
-          label="Emergencyy Phone"
-          value={selectedPatient.contact.emergencyPhone}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <Divider className={classes.divider} variant="middle" />
-        <Typography component="h3" variant="h5">
-            Insurance
-        </Typography>
-        <TextField
-          id="insurance-provider"
-          label="Insurance Provider"
-          value={selectedPatient.insurance.insuranceProvider}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="insurance-number"
-          label="Insurance Number"
-          value={selectedPatient.insurance.insuranceNumber}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="effective-date"
-          label="Effective Date"
-          value={selectedPatient.insurance.effectiveDate}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-        <TextField
-          id="expiry-date"
-          label="Expiry Date"
-          value={selectedPatient.insurance.expiryDate}
-          className={classes.mediumTextField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
+      </Typography>
+      {!contactResponse? <LoadingComponent/>:
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              id="address"
+              label="Adress"
+              value={contact.address}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="suburb"
+              label="Suburb"
+              value={contact.suburb}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="postcode"
+              label="Postcode"
+              value={contact.postcode}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="state"
+              label="State"
+              value={contact.state}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="country"
+              label="Country"
+              value={contact.country}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="home-phone"
+              label="Home Phone"
+              value={contact.homePhone}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="mobile-number"
+              label="Mobile Number"
+              value={contact.mobileNumber}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="email"
+              label="Email"
+              value={contact.email}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="emergency-contact"
+              label="Emergency Contact"
+              value={contact.emergencyContact}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="emergency-phone"
+              label="Emergency Phone"
+              value={contact.emergencyPhone}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+      }
+      <Divider className={classes.divider} variant="middle" />
+      <Typography component="h3" variant="h5">
+          Insurance
+      </Typography>
+      {!insuranceResponse? <LoadingComponent/>:
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <TextField
+              id="insurance-provider"
+              label="Insurance Provider"
+              value={insurance.insuranceProvider}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="insurance-number"
+              label="Insurance Number"
+              value={insurance.insuranceNumber}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="effective-date"
+              label="Effective Date"
+              value={insurance.effectiveDate}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="expiry-date"
+              label="Expiry Date"
+              value={insurance.expiryDate}
+              className={classes.textField}
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+      }    
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-u
 import { PatientsContext } from 'contexts/patient/PatientsContext';
 import * as dummyListPatients from './dummyListPatients.json';
 import API from 'helpers/api.js';
+import {LoadingComponent} from 'components/common/loading';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,11 +17,12 @@ const useStyles = makeStyles(theme => ({
 export const PatientList = () => {
   const {listPatients, setListPatients} = useContext(PatientsContext);
   //setListPatients(dummyListPatients.patients); //TODO: take data from database
-  useEffect(()=>{
-    API.getPatients(setListPatients);
-  },[])
   const {selectedPatient, setSelectedPatient} = useContext(PatientsContext);
   const {query, setQuery} = useContext(PatientsContext);
+  const [serverResponse, setServerResponse] = useState(false);
+  useEffect(()=>{
+    API.getPatients(setListPatients, setServerResponse);
+  },[])
   const classes = useStyles();
   const renderPatientListItem = (patient) =>{
     let lowerCaseQuery = query.toLowerCase();
@@ -37,14 +39,17 @@ export const PatientList = () => {
         </div>
         
       )
-    else return (<div></div>)
+    else return (<div key = {patient.id}></div>)
   }
   return (
-    <List className={classes.root} >
-      {listPatients.map((patient) =>{
-          return renderPatientListItem(patient);
-        })
-      }
-    </List>
+    !serverResponse? 
+      <LoadingComponent/> :
+      <List className={classes.root} >
+        {listPatients.map((patient) =>{
+            return renderPatientListItem(patient);
+          })
+        }
+      </List>
+    
   )
 }

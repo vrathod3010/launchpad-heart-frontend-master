@@ -8,11 +8,7 @@ import {LoadingComponent} from 'components/common/loading';
 const titleArray = ["Mr","Ms","Mrs","Dr"];
 const maritalStatusArray = ["Married","Divorced","Single","Widowed","Separated","Domestic Partner"];
 const stateArray = ["QLD","VIC","NSW","ACT","WA","TAS","SA","NT"];
-const dayArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
-const monthArray = [1,2,3,4,5,6,7,8,9,10,11,12];
-let yearArray = [];
-for (let i = 1920; i < 2020; i++)
-  yearArray.push(i);
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -41,17 +37,26 @@ const useStyles = makeStyles(theme => ({
   },
   button:{
     marginTop: 50,
-    marginLeft:'35%',
-    width: '30%'
+    // marginLeft:'35%',
+    width: '100%'
+  }, 
+  message:{
+    //width: '100%',
+    textAlign: 'center',
+    color: 'red'
   }
 }));
 
 export const PatientPersonalInfomation = () =>{
   const classes = useStyles();
-  const {selectedPatient} = useContext(PatientsContext);
+  const {selectedPatient, setSelectedPatient} = useContext(PatientsContext);
   const {editFlag, setEditFlag} = useContext(PatientsContext);
   const [contact, setContact] = useState(null);
   const [insurance, setInsurance] = useState(null);
+  const [updateMessage, setUpdateMessage] = useState("");
+  const [updateIdentitySuccess, setUpdateIdentitySuccess] = useState(false);
+  const [updateContactSuccess, setUpdateContactSuccess] = useState(false);
+  const [updateInsuranceSuccess, setUpdateInsuranceSuccess] = useState(false);
   //patient basic info
   const [contactResponse, setContactResponse] = useState(false);
   const [insuranceResponse, setInsuranceResponse] = useState(false);
@@ -59,9 +64,7 @@ export const PatientPersonalInfomation = () =>{
   const [patientFirstName, setPatientFirstName] = useState("");
   const [patientMiddleName, setPatientMiddleName] = useState("");
   const [patientLastName, setPatientLastName] = useState("");
-  const [patientDayOfBirth, setPatientDayOfBirth] = useState("");
-  const [patientMonthOfBirth, setPatientMonthOfBirth] = useState("");
-  const [patientYearOfBirth, setPatientYearOfBirth] = useState("");
+  const [patientDoB, setPatientDoB] = useState("");
   const [patientSex, setPatientSex] = useState("");
   const [patientMaritalStatus, setPatientMaritalStatus] = useState("");
   const [patientMedNumber, setPatientMedNumber] = useState("");
@@ -82,6 +85,23 @@ export const PatientPersonalInfomation = () =>{
   const [insuranceEffectiveDate, setInsuranceEffectiveDate] = useState("");
   const [insuranceExpiryDate, setInsuranceExpiryDate] = useState("");
 
+  //everytime user enter edit mode, set update status to false
+  useEffect(()=>{
+    if (editFlag)
+    {
+      setUpdateIdentitySuccess(false);
+      console.log("111111111111111");
+      setUpdateContactSuccess(false);
+      setUpdateInsuranceSuccess(false);
+    }
+  },[editFlag])
+
+  //only turn off edit mode if all info is updated successfully
+  useEffect(()=>{
+    if(updateIdentitySuccess && updateContactSuccess)
+      setEditFlag(false);
+  }, [updateIdentitySuccess, updateContactSuccess, updateInsuranceSuccess])
+
   useEffect(()=>{
     setIdentityInfo();
     setContactResponse(false);
@@ -96,15 +116,12 @@ export const PatientPersonalInfomation = () =>{
     setInsuranceInfo()
   },[insurance])
 
-  let dob = new Date(selectedPatient.dateOfBirth);
   const setIdentityInfo = () => {
     setPatientTitle(selectedPatient.title);
     setPatientFirstName(selectedPatient.firstName);
     setPatientMiddleName(selectedPatient.middleName);
     setPatientLastName(selectedPatient.lastName);
-    setPatientDayOfBirth(dob.getDate());
-    setPatientMonthOfBirth(dob.getMonth());
-    setPatientYearOfBirth(dob.getFullYear());
+    setPatientDoB(selectedPatient.dateOfBirth.substring(0,10));//to convert to date input type
     setPatientSex(selectedPatient.sex);
     setPatientMaritalStatus(selectedPatient.maritalStatus);
     setPatientMedNumber(selectedPatient.medicareNumber);
@@ -131,13 +148,80 @@ export const PatientPersonalInfomation = () =>{
       console.log(insurance);
       setInsuranceProvider(insurance.insuranceProvider);
       setInsuranceNumber(insurance.insuranceNumber);
-      setInsuranceEffectiveDate(insurance.effectiveDate);
-      setInsuranceExpiryDate(insurance.expiryDate);
+      setInsuranceEffectiveDate(insurance.effectiveDate.substring(0,10));//to convert to date input type
+      setInsuranceExpiryDate(insurance.expiryDate.substring(0,10));//to convert to date input type
     }
   }
 
   const updatePatientInfo = () => {
+    updateIdentity();
+    updateContact();
+    updateInsurance();
+  }
 
+  const updateIdentity = () => {
+    console.log("updateIdentityInfo");
+    let updatedIdentity = JSON.parse(JSON.stringify(selectedPatient));//clone object
+    updatedIdentity.title = patientTitle;
+    updatedIdentity.firstName = patientFirstName;
+    updatedIdentity.middleName = patientMiddleName;
+    updatedIdentity.lastName = patientLastName;
+    updatedIdentity.dateOfBirth = patientDoB;
+    updatedIdentity.sex = patientSex;
+    updatedIdentity.maritalStatus = patientMaritalStatus;
+    updatedIdentity.medicareNumber = patientMedNumber;    
+    API.updatePatient(updatedIdentity, selectedPatient.id, 
+      () =>{ //callback
+        setSelectedPatient(updatedIdentity);
+        setUpdateIdentitySuccess(true);
+      },
+      (error)=>{ //errCallback
+        setUpdateIdentitySuccess(false);
+        setUpdateMessage("Update error. Please check all fields again");
+      })
+  }
+
+  const updateContact = () => {
+    console.log("updateContactInfo");
+    let updatedContact = JSON.parse(JSON.stringify(contact));//clone object
+    updatedContact.address = contactAddress;
+    updatedContact.suburb = contactSuburb;
+    updatedContact.postcode = contactPostcode;
+    updatedContact.state = contactState;
+    updatedContact.country = contactCountry;
+    updatedContact.homePhone = contactHomePhone;
+    updatedContact.mobileNumber = contactMobileNumber;
+    updatedContact.email = contactEmail;
+    updatedContact.emergencyContact = contactEmergencyContact;
+    updatedContact.emergencyPhone = contactEmergencyPhone;
+    API.updateContact(updatedContact, selectedPatient.id,
+      () =>{ //callback
+        setContact(updatedContact);
+        setUpdateContactSuccess(true);
+      },
+      (error)=>{ //errCallback
+        setUpdateContactSuccess(false);
+        setUpdateMessage("Update error. Please check all fields again");
+      })
+    
+  }
+
+  const updateInsurance = () => {
+    console.log("updateInsuranceInfo");
+    let updatedInsurance = JSON.parse(JSON.stringify(insurance));//clone object
+    updatedInsurance.insuranceProvider = insuranceProvider;
+    updatedInsurance.insuranceNumber = insuranceNumber;
+    updatedInsurance.effectiveDate = insuranceEffectiveDate;
+    updatedInsurance.expiryDate = insuranceExpiryDate;
+    API.updateInsurace(updatedInsurance, selectedPatient.id,
+      () =>{ //callback
+        setInsurance(updatedInsurance);
+        setUpdateInsuranceSuccess(true);
+      },
+      (error)=>{ //errCallback
+        setUpdateInsuranceSuccess(false);
+        setUpdateMessage("Update error. Please check all fields again");
+      })
   }
   //handle first name change
   return (
@@ -215,58 +299,22 @@ export const PatientPersonalInfomation = () =>{
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={2}>
-          <FormControl required variant="outlined" 
-            className={patientDayOfBirth!==dob.getDate()?classes.formControlEdit:classes.formControl}>
-            <InputLabel>Birth Day</InputLabel>
-            <Select
-              native
-              value={patientDayOfBirth}
-              onChange={(e)=>{setPatientDayOfBirth(e.target.value)}}
-              labelWidth={40}
-              disabled= {!editFlag}
-            >
-              {dayArray.map((value,i)=>{
-                return <option key={i} value = {value}>{value}</option>;
-              })}
-            </Select>
-          </FormControl>
+        <Grid item xs = {3}>
+          <TextField
+            id="dob"
+            label="Date of Birth"
+            value={patientDoB}
+            onChange = {(e)=>setPatientDoB(e.target.value)}
+            className={classes.textField}
+            fullWidth
+            margin="normal"
+            disabled= {!editFlag}
+            variant="outlined"
+            InputProps = {{type: 'date'}}
+            InputLabelProps={{shrink: true}}
+          />
         </Grid>
         <Grid item xs={2}>
-          <FormControl required variant="outlined" 
-            className={patientMonthOfBirth!==dob.getMonth()?classes.formControlEdit:classes.formControl}>
-            <InputLabel>Birth Month</InputLabel>
-            <Select
-              native
-              value={patientMonthOfBirth}
-              onChange={(e)=>{setPatientMonthOfBirth(e.target.value)}}
-              labelWidth={40}
-              disabled= {!editFlag}
-            >
-              {monthArray.map((value,i)=>{
-                return <option key={i} value = {value}>{value}</option>;
-              })}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={2}>
-          <FormControl required variant="outlined" 
-            className={patientYearOfBirth!==dob.getFullYear()?classes.formControlEdit:classes.formControl}>
-            <InputLabel>Birth Year</InputLabel>
-            <Select
-              native
-              value={patientYearOfBirth}
-              onChange={(e)=>{setPatientYearOfBirth(e.target.value)}}
-              labelWidth={40}
-              disabled= {!editFlag}
-            >
-              {yearArray.map((value,i)=>{
-                return <option key={i} value = {value}>{value}</option>;
-              })}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={3}>
           <FormControl required variant="outlined" 
             className={patientSex!==selectedPatient.sex?classes.formControlEdit:classes.formControl}>
             <InputLabel>Sex</InputLabel>
@@ -282,7 +330,7 @@ export const PatientPersonalInfomation = () =>{
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <FormControl required variant="outlined" 
             className={patientMaritalStatus!==selectedPatient.maritalStatus?classes.formControlEdit:classes.formControl}>
             <InputLabel>Marital Status</InputLabel>
@@ -299,7 +347,7 @@ export const PatientPersonalInfomation = () =>{
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={5}>
           <TextField
             id="medical-number"
             label="Medical Number"
@@ -489,11 +537,12 @@ export const PatientPersonalInfomation = () =>{
               label="Effective Date"
               value={insuranceEffectiveDate}
               onChange = {(e)=>setInsuranceEffectiveDate(e.target.value)}
-              className={insuranceEffectiveDate!==insurance.effectiveDate?classes.textFieldEdit:classes.textField}
+              className={insuranceEffectiveDate!==insurance.effectiveDate.substring(0,10)?classes.textFieldEdit:classes.textField}
               fullWidth
               margin="normal"
               disabled= {!editFlag}
               variant="outlined"
+              InputProps = {{type: 'date'}}
             />
           </Grid>
           <Grid item xs={6}>
@@ -502,21 +551,28 @@ export const PatientPersonalInfomation = () =>{
               label="Expiry Date"
               value={insuranceExpiryDate}
               onChange = {(e)=>setInsuranceExpiryDate(e.target.value)}
-              className={insuranceExpiryDate!==insurance.expiryDate?classes.textFieldEdit:classes.textField}
+              className={insuranceExpiryDate!==insurance.expiryDate.substring(0,10)?classes.textFieldEdit:classes.textField}
               fullWidth
               margin="normal"
               disabled= {!editFlag}
               variant="outlined"
+              InputProps = {{type: 'date'}}
             />
           </Grid>
         </Grid>
       }
-      {!editFlag?"":
-      <Button variant="contained" color="primary" 
-        className={classes.button}
-        onChange={updatePatientInfo}>
-        Update
-      </Button>}
+      {!editFlag?"":      
+      <Grid container justify="center" spacing = {1}>
+        <Grid item xs = {3}>
+          <Button variant="contained" color="primary" 
+            className={classes.button}
+            onClick={updatePatientInfo}>
+            Update
+          </Button>
+          <p className={classes.message}>{updateMessage}</p>
+        </Grid>
+      </Grid>
+      }
     </div>
   )
 }

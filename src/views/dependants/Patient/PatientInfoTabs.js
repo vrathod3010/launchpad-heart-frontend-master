@@ -44,6 +44,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  tab: {
+    backgroundColor: "#edf4ff"
+  },
   smallTextField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -68,7 +71,7 @@ export const PatientInfoTabs = ()=>{
   else return (
     <div className={classes.root}>
       
-      <Tabs value={value} onChange={handleChange} aria-label="patient data tabs">
+      <Tabs variant="fullWidth" className={classes.tab} value={value} onChange={handleChange} aria-label="patient data tabs">
         <Tab label="Personal Infomation" {...a11yProps(0)} />
         <Tab label="Health record" {...a11yProps(1)} />
         <Tab label="Realtime data" {...a11yProps(2)} />

@@ -8,8 +8,8 @@ import {LoadingComponent} from 'components/common/loading';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
-    maxWidth: 360,
+    width: '90%',
+    margin: 'auto',
     backgroundColor: theme.palette.background.paper,
   },
 }));

@@ -44,6 +44,39 @@ class API {
         //stateHandler({});
       });
   }
+
+  updatePatient(updatedPatient, patientID, callback, errCallback) {
+    axiosInstance.put(replacePlaceHolder(CONSTANTS.PATIENTS_BY_ID, patientID), updatedPatient)
+      .then(()=>{
+        callback();
+      })
+      .catch((error)=>{
+        console.log(error);
+        errCallback(error);
+      });
+  }
+
+  updateContact(updatedContact, patientID, callback, errCallback) {
+    axiosInstance.put(replacePlaceHolder(CONSTANTS.PATIENT_CONTACT, patientID), updatedContact)
+      .then(()=>{
+        callback();
+      })
+      .catch((error)=>{
+        console.log(error);
+        errCallback(error);
+      });
+  }
+
+  updateInsurace(updatedInsurance, patientID, callback, errCallback) {
+    axiosInstance.put(replacePlaceHolder(CONSTANTS.PATIENT_INSURANCE, patientID), updatedInsurance)
+      .then(()=>{
+        callback();
+      })
+      .catch((error)=>{
+        console.log(error);
+        errCallback(error);
+      });
+  }
   
 }
 const instance = new API();

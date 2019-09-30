@@ -15,7 +15,8 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "typeface-roboto": "0.0.54",
-    "typescript": "^3.5.1"
+    "typescript": "^3.5.1",
+    "recharts": "^1.7.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -8,13 +8,6 @@
       "customTitle": "Home"
     },
     {
-      "name": "User",
-      "type": "button",
-      "icon": "person",
-      "controller": "user",
-      "customTitle": "User"
-    },
-    {
       "name": "PATIENT",
       "type": "button",
       "icon": "accessible",

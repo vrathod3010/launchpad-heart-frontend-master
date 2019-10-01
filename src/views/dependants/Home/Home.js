@@ -5,7 +5,8 @@ export const Home = () => {
 
   return (
     <div>
-      <UserList />
+      {/* <UserList /> */}
+      <h1> Welcome to the Launchpad Health - LERI project</h1>
     </div>
   )
 }

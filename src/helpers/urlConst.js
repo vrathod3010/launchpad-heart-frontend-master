@@ -3,6 +3,7 @@ export const CONSTANTS = {
   PATIENTS_BY_ID: "/patients/?",
   PATIENT_CONTACT : "/patients/?/contacts",
   PATIENT_INSURANCE: "/patients/?/insurances",
-  PATIENT_CAREPLANS: "/patients/?/carePlans"
+  PATIENT_CAREPLANS: "/patients/?/carePlans",
+  PATIENT_SENSOR: "/patients/?/sensorData"
 
 }

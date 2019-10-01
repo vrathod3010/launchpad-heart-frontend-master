@@ -45,6 +45,17 @@ class API {
       });
   }
 
+  getPatientSensorData(patientID, stateHandler, responseHandler) {
+    axiosInstance.get(replacePlaceHolder(CONSTANTS.PATIENT_SENSOR, patientID))
+      .then((response) => {
+        console.log(response.data);
+        stateHandler(response.data);
+        responseHandler(true);
+      }).catch((error) => {
+        //stateHandler({});
+      });
+  }
+
   updatePatient(updatedPatient, patientID, callback, errCallback) {
     axiosInstance.put(replacePlaceHolder(CONSTANTS.PATIENTS_BY_ID, patientID), updatedPatient)
       .then(()=>{

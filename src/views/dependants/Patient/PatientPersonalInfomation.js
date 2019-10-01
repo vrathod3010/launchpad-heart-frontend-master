@@ -57,9 +57,11 @@ export const PatientPersonalInfomation = () =>{
   const [updateIdentitySuccess, setUpdateIdentitySuccess] = useState(false);
   const [updateContactSuccess, setUpdateContactSuccess] = useState(false);
   const [updateInsuranceSuccess, setUpdateInsuranceSuccess] = useState(false);
-  //patient basic info
+  //check if data is done loading
   const [contactResponse, setContactResponse] = useState(false);
   const [insuranceResponse, setInsuranceResponse] = useState(false);
+
+  //patient basic info
   const [patientTitle, setPatientTitle] = useState("");
   const [patientFirstName, setPatientFirstName] = useState("");
   const [patientMiddleName, setPatientMiddleName] = useState("");

@@ -74,18 +74,18 @@ export const PatientInfoTabs = ()=>{
       <Tabs variant="fullWidth" className={classes.tab} value={value} onChange={handleChange} aria-label="patient data tabs">
         <Tab label="Personal Infomation" {...a11yProps(0)} />
         <Tab label="Health record" {...a11yProps(1)} />
-        <Tab label="Realtime data" {...a11yProps(2)} />
+        {/* <Tab label="Realtime data" {...a11yProps(2)} /> */}
       </Tabs>
       
       <TabPanel value={value} index={0}>
         <PatientPersonalInfomation/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* <PatientHealthData/> */}
+        <PatientHealthData/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      {/* <TabPanel value={value} index={2}>
         Item Three
-      </TabPanel>
+      </TabPanel> */}
     </div>
   );
 }

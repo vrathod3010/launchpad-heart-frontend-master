@@ -18,11 +18,17 @@ export const PatientList = () => {
   const {listPatients, setListPatients} = useContext(PatientsContext);
   //setListPatients(dummyListPatients.patients); //TODO: take data from database
   const {selectedPatient, setSelectedPatient} = useContext(PatientsContext);
+  const {setEditFlag} = useContext(PatientsContext);
   const {query, setQuery} = useContext(PatientsContext);
+  const {refresh, setRefresh} = useContext(PatientsContext);
   const [serverResponse, setServerResponse] = useState(false);
   useEffect(()=>{
-    API.getPatients(setListPatients, setServerResponse);
-  },[])
+    if (refresh === true)
+    {
+      API.getPatients(setListPatients, setServerResponse);
+      setRefresh(false);
+    }
+  },[refresh])
   const classes = useStyles();
   const renderPatientListItem = (patient) =>{
     let lowerCaseQuery = query.toLowerCase();
@@ -32,6 +38,7 @@ export const PatientList = () => {
         <div key = {patient.id}>
           <ListItem button selected={selectedPatient === patient} onClick = {()=>{
               setSelectedPatient(patient);
+              setEditFlag(false);
             }}>
             <ListItemText primary = {patient.firstName + " " + patient.middleName + " " + patient.lastName}/>
           </ListItem>

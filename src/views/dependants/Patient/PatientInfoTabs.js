@@ -67,22 +67,26 @@ export const PatientInfoTabs = ()=>{
   const handleChange = (event, newValue)=>{
     setValue(newValue);
   }
-  if (!selectedPatient) return (<div></div>);
-  else return (
+  // if (!selectedPatient) return (<div></div>);
+  // else 
+  return (
     <div className={classes.root}>
       
       <Tabs variant="fullWidth" className={classes.tab} value={value} onChange={handleChange} aria-label="patient data tabs">
         <Tab label="Personal Infomation" {...a11yProps(0)} />
-        <Tab label="Health record" {...a11yProps(1)} />
+        {selectedPatient===null?<div></div>:
+        <Tab label="Health record" {...a11yProps(1)} />}
         {/* <Tab label="Realtime data" {...a11yProps(2)} /> */}
       </Tabs>
       
       <TabPanel value={value} index={0}>
         <PatientPersonalInfomation/>
       </TabPanel>
+      {selectedPatient===null?<div></div>:
       <TabPanel value={value} index={1}>
         <PatientHealthData/>
       </TabPanel>
+      }
       {/* <TabPanel value={value} index={2}>
         Item Three
       </TabPanel> */}

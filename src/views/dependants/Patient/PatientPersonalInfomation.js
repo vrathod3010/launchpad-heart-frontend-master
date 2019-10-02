@@ -157,7 +157,7 @@ export const PatientPersonalInfomation = () =>{
     setPatientMedNumber(selectedPatient===null?"":selectedPatient.medicareNumber);
   }
   const setContactInfo = () => {
-    console.log(contact);
+    //console.log(contact);
     setContactAddress(contact===null?"":contact.address);
     setContactSuburb(contact===null?"":contact.suburb);
     setContactPostcode(contact===null?"":contact.postcode);
@@ -170,7 +170,7 @@ export const PatientPersonalInfomation = () =>{
     setContactEmergencyPhone(contact===null?"":contact.emergencyPhone);
   }
   const setInsuranceInfo = () => {
-    console.log(insurance);
+    //console.log(insurance);
     setInsuranceProvider(insurance===null?"":insurance.insuranceProvider);
     setInsuranceNumber(insurance===null?"":insurance.insuranceNumber);
     setInsuranceEffectiveDate(insurance===null?"":insurance.effectiveDate.substring(0,10));//to convert to date input type
@@ -186,7 +186,7 @@ export const PatientPersonalInfomation = () =>{
   }
 
   const updateIdentity = () => {
-    console.log("updateIdentityInfo");
+    //console.log("updateIdentityInfo");
     let updatedIdentity = JSON.parse(JSON.stringify(selectedPatient));//clone object
     updatedIdentity.title = patientTitle;
     updatedIdentity.firstName = patientFirstName;
@@ -213,7 +213,7 @@ export const PatientPersonalInfomation = () =>{
   }
 
   const updateContact = () => {
-    console.log("updateContactInfo");
+    //console.log("updateContactInfo");
     let updatedContact = JSON.parse(JSON.stringify(contact));//clone object
     updatedContact.address = contactAddress;
     updatedContact.suburb = contactSuburb;
@@ -238,7 +238,7 @@ export const PatientPersonalInfomation = () =>{
   }
 
   const updateInsurance = () => {
-    console.log("updateInsuranceInfo");
+    //console.log("updateInsuranceInfo");
     let updatedInsurance = JSON.parse(JSON.stringify(insurance));//clone object
     updatedInsurance.insuranceProvider = insuranceProvider;
     updatedInsurance.insuranceNumber = insuranceNumber;
@@ -283,7 +283,7 @@ export const PatientPersonalInfomation = () =>{
   }
 
   const createNewContact = () => {
-    console.log("create new Contact");
+    //console.log("create new Contact");
     let newContact = {};
     newContact.address = contactAddress;
     newContact.suburb = contactSuburb;
@@ -307,7 +307,7 @@ export const PatientPersonalInfomation = () =>{
     
   }
   const createNewInsurance = () => {
-    console.log("createNewInsurance");
+    //console.log("createNewInsurance");
     let newInsurance = {};
     newInsurance.insuranceProvider = insuranceProvider;
     newInsurance.insuranceNumber = insuranceNumber;

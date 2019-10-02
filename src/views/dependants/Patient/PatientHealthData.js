@@ -37,8 +37,8 @@ const useStyles = makeStyles(theme => ({
 const DisplayChart = (props) => {
   let data = props.data;
   let viewMode = props.viewMode;
-  console.log("DisplayChart " + viewMode + " " + props.type);
-  console.log(data);
+  //console.log("DisplayChart " + viewMode + " " + props.type);
+  //console.log(data);
   let chartData = [];
   let value = "";
   switch (props.type)
@@ -63,7 +63,7 @@ const DisplayChart = (props) => {
       chartData.unshift(displayData);
     }
   }
-  console.log(chartData);
+  //console.log(chartData);
   return (
     <LineChart
       width={600}
@@ -109,9 +109,6 @@ export const PatientHealthData = () => {
   
 
   useEffect(()=>{
-    // let interval = setInterval(()=>{
-    //   setMinutes(minutes => minutes + 1);
-    // }, 30000);
     if (selectedPatient!==null)
     {
       //console.log("111111111111111111");
@@ -122,11 +119,19 @@ export const PatientHealthData = () => {
     {//free memory when no patient is selected
       setSensorData([]);
     }
-    // return () => {
-    //   console.log("after use effect");
-    //   clearInterval(interval);
-    // }
   },[selectedPatient])
+
+  useEffect(()=>{
+    //console.log("useEffect minutes");
+    let interval = setInterval(()=>{
+      setMinutes(minutes => minutes + 1);
+    }, 60000);
+    API.getPatientSensorData(selectedPatient.id, setSensorData, setSensorResponse);
+    return () => {
+      //console.log("after use effect");
+      clearInterval(interval);
+    }
+  },[minutes])
 
   useEffect(()=>{
     if (sensorData.length !== 0)
@@ -145,8 +150,8 @@ export const PatientHealthData = () => {
     let bloodOxygens = []; let recentBloodOxygen = [];
     for (let index = 0; index < sensorData.length; index ++)
     {
-      console.log("Set Data");
-      console.log(new Date(sensorData[index].logTime));
+      //console.log("Set Data");
+      //console.log(new Date(sensorData[index].logTime));
       pulseRates.push({rate:sensorData[index].pulseRate, time: sensorData[index].logTime});
       bloodGlucoses.push({rate:sensorData[index].bloodGlucose, time:sensorData[index].logTime});
       bloodOxygens.push({rate:sensorData[index].bloodOxygen, time:sensorData[index].logTime});

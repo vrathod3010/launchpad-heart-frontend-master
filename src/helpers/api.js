@@ -30,7 +30,8 @@ class API {
         stateHandler(response.data);
         responseHandler(true);
       }).catch((error) => {
-        //stateHandler({});
+        stateHandler(null);
+        responseHandler(true);
       });
   }
 
@@ -41,7 +42,8 @@ class API {
         stateHandler(response.data);
         responseHandler(true);
       }).catch((error) => {
-        //stateHandler({});
+        stateHandler(null);
+        responseHandler(true);
       });
   }
 
@@ -88,7 +90,47 @@ class API {
         errCallback(error);
       });
   }
+
+  deletePatient(patientID, callback) {
+    axiosInstance.delete(replacePlaceHolder(CONSTANTS.PATIENTS_BY_ID, patientID))
+      .then(()=>{
+        callback();
+      })
+  }
+
+  createPatient(newPatient, callback, errCallback) {
+    axiosInstance.post(CONSTANTS.PATIENTS, newPatient)
+      .then((response) => {
+        console.log(response.data);
+        callback();
+        //firstCallback(response.data.id,)
+      })
+      .catch((error)=>{
+        errCallback(error);
+      })
+  }
   
+  createContact(newContact, patientID, callback, errCallback) {
+    axiosInstance.post(replacePlaceHolder(CONSTANTS.PATIENT_CONTACT, patientID), newContact)
+      .then(()=>{
+        callback();
+      })
+      .catch((error)=>{
+        console.log(error);
+        errCallback(error);
+      });
+  }
+
+  createInsurance(newInsurance, patientID, callback, errCallback) {
+    axiosInstance.post(replacePlaceHolder(CONSTANTS.PATIENT_INSURANCE, patientID), newInsurance)
+      .then(()=>{
+        callback();
+      })
+      .catch((error)=>{
+        console.log(error);
+        errCallback(error);
+      });
+  }
 }
 const instance = new API();
 export default instance;

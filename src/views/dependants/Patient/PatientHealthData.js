@@ -111,13 +111,20 @@ export const PatientHealthData = () => {
   
 
   useEffect(()=>{
-    console.log("111111111111111111");
-    setSensorResponse(false);
-    API.getPatientSensorData(selectedPatient.id, setSensorData, setSensorResponse);
+    if (selectedPatient!==null)
+    {
+      //console.log("111111111111111111");
+      setSensorResponse(false);
+      API.getPatientSensorData(selectedPatient.id, setSensorData, setSensorResponse);
+    }
+    else
+    {//free memory when no patient is selected
+      setSensorData([]);
+    }
   },[selectedPatient])
 
   useEffect(()=>{
-    if (sensorData.length != 0)
+    if (sensorData.length !== 0)
       SetData(sensorData);
   },[sensorData])
   

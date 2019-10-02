@@ -8,5 +8,6 @@ export const PatientsProvider = (props) => {
   const [listPatients, setListPatients] = useState([]);
   const [query, setQuery] = useState("");
   const [editFlag, setEditFlag] = useState(false);
-  return <PatientsContext.Provider value={{ listPatients, setListPatients, selectedPatient, setSelectedPatient, query, setQuery, editFlag, setEditFlag }} >{children}</PatientsContext.Provider>
+  const [refresh, setRefresh] = useState(true);
+  return <PatientsContext.Provider value={{ listPatients, setListPatients, selectedPatient, setSelectedPatient, query, setQuery, editFlag, setEditFlag, refresh, setRefresh }} >{children}</PatientsContext.Provider>
 }

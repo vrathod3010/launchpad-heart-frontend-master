@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Label, Tooltip } from "recharts";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Label, Tooltip} from "recharts";
 import { makeStyles } from '@material-ui/core/styles';
-import {Switch, Collapse, FormControlLabel, TextField, Container, Divider} from '@material-ui/core';
+import {Switch, Collapse, FormControlLabel, TextField, Container, Divider, FormControl, InputLabel, Select} from '@material-ui/core';
 import { PatientsContext } from '../../../contexts/patient/PatientsContext';
 import { API } from 'helpers/index';
 import {LoadingComponent} from 'components/common/loading';
@@ -25,38 +25,20 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(3),
     width: 100,
   },
+  formControl: {
+    marginTop: 15,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(3),
+    width: 150
+  },
 }));
 
-let pulseRates = [];
-let bloodGlucoses = [];
-let bloodOxygens = [];
 
-const SetData = (sensorData) => {
-  pulseRates = [];bloodGlucoses = [];bloodOxygens = [];
-  for (let index = sensorData.length - maximumDisplay; index < sensorData.length; index ++)
-  {
-    pulseRates.push(sensorData[index].pulseRate);
-  }
-  console.log(pulseRates);
-  // setPulseRatesList(pulseRates);
-
-  for (let index = sensorData.length - maximumDisplay; index < sensorData.length; index ++)
-  {
-    bloodGlucoses.push(sensorData[index].bloodGlucose);
-  }
-  console.log(bloodGlucoses);
-  // setbloodGlucoseList(bloodGlucoses);
-
-  for (let index = sensorData.length - maximumDisplay; index < sensorData.length; index ++)
-  {
-    bloodOxygens.push(sensorData[index].bloodOxygen);
-  }
-  console.log(bloodOxygens);
-  // setBloodOxygenList(bloodOxygens);
-
-}
 const DisplayChart = (props) => {
   let data = props.data;
+  let viewMode = props.viewMode;
+  console.log("DisplayChart " + viewMode + " " + props.type);
+  console.log(data);
   let chartData = [];
   let value = "";
   switch (props.type)
@@ -65,14 +47,23 @@ const DisplayChart = (props) => {
     case "bloodGlucose": value = "mmol/L"; break;
     case "bloodOxygen": value = "mm/Hg"; break;
   }
+  
+  //let sum = 0;
+  const period = (viewMode == 0)?1:10;
   for (let i = 0; i < data.length; i++)
   {
     let displayData = {};
-    displayData.time = data.length - i;
-    displayData.value = data[i];
-    console.log(displayData);
-    chartData.push(displayData);
+    if ((i+1)%period==0)
+    {
+      let time = new Date(data[i].time);
+      //console.log(time);
+      displayData.time = time.getHours() + ":" + time.getMinutes();
+      displayData.value = data[i].rate;
+      //console.log(displayData);
+      chartData.unshift(displayData);
+    }
   }
+  console.log(chartData);
   return (
     <LineChart
       width={600}
@@ -84,7 +75,7 @@ const DisplayChart = (props) => {
       <Tooltip/>
       <Line type="monotone" dataKey="value" stroke="#8884d8" />
       <XAxis dataKey="time">
-        <Label value="min(s) ago" offset={0} position="bottom" />
+        <Label value="time (hh:mm)" offset={0} position="bottom" />
       </XAxis> />
       <YAxis>
         <Label value = {value} angle = {-90} position = "left"/>
@@ -96,21 +87,31 @@ export const PatientHealthData = () => {
   const classes = useStyles();
 
   const {selectedPatient} = useContext(PatientsContext);
+  const [minutes, setMinutes] = useState(0);
 
   const [sensorData, setSensorData] = useState([]);
   const [sensorResponse, setSensorResponse] = useState(false);
 
   const [pulseRateList, setPulseRatesList] = useState([]);
+  const [recentPulseRateList, setRecentPulseRatesList] = useState([]);
+  const [prViewMode, setPrViewMode] = useState(0);
   const [pulseRateChecked, setpulseRateChecked] = useState(false);
 
   const [bloodGlucoseList, setbloodGlucoseList] = useState([]);
+  const [recentBloodGlucoseList, setRecentBloodGlucoseList] = useState([]);
+  const [bgViewMode, setBgViewMode] = useState(0);
   const [bloodGlucoseChecked, setbloodGlucoseChecked] = useState(false);
 
   const [bloodOxygenList, setBloodOxygenList] = useState([]);
+  const [recentBloodOxygenList, setRecentBloodOxygenList] = useState([]);
+  const [boViewMode, setBoViewMode] = useState(0);
   const [bloodOxygenChecked, setbloodOxygenChecked] = useState(false);
   
 
   useEffect(()=>{
+    // let interval = setInterval(()=>{
+    //   setMinutes(minutes => minutes + 1);
+    // }, 30000);
     if (selectedPatient!==null)
     {
       //console.log("111111111111111111");
@@ -121,13 +122,52 @@ export const PatientHealthData = () => {
     {//free memory when no patient is selected
       setSensorData([]);
     }
+    // return () => {
+    //   console.log("after use effect");
+    //   clearInterval(interval);
+    // }
   },[selectedPatient])
 
   useEffect(()=>{
     if (sensorData.length !== 0)
       SetData(sensorData);
   },[sensorData])
+
+  useEffect(()=>{
+    
+
+  }, minutes)
   
+
+  const SetData = (sensorData) => {
+    let pulseRates = []; let recentPulseRates = [];
+    let bloodGlucoses = []; let recentBloodGlucoses = [];
+    let bloodOxygens = []; let recentBloodOxygen = [];
+    for (let index = 0; index < sensorData.length; index ++)
+    {
+      console.log("Set Data");
+      console.log(new Date(sensorData[index].logTime));
+      pulseRates.push({rate:sensorData[index].pulseRate, time: sensorData[index].logTime});
+      bloodGlucoses.push({rate:sensorData[index].bloodGlucose, time:sensorData[index].logTime});
+      bloodOxygens.push({rate:sensorData[index].bloodOxygen, time:sensorData[index].logTime});
+      if (index < maximumDisplay)
+      {
+        recentPulseRates.push({rate:sensorData[index].pulseRate, time: sensorData[index].logTime});
+        recentBloodGlucoses.push({rate:sensorData[index].bloodGlucose, time:sensorData[index].logTime});
+        recentBloodOxygen.push({rate:sensorData[index].bloodOxygen, time:sensorData[index].logTime});
+      }
+    }
+    //console.log(pulseRates);
+    setPulseRatesList(pulseRates);
+    setRecentPulseRatesList(recentPulseRates);
+    //console.log(bloodGlucoses);
+    setbloodGlucoseList(bloodGlucoses);
+    setRecentBloodGlucoseList(recentBloodGlucoses);
+    //console.log(bloodOxygens);
+    setBloodOxygenList(bloodOxygens);
+    setRecentBloodOxygenList(recentBloodOxygen);
+  
+  }
 
   const handlePulseRateSwitchChange = () => {
     setpulseRateChecked(prev => !prev);
@@ -147,7 +187,7 @@ export const PatientHealthData = () => {
         <TextField
           id="pulse-rate"
           label = "Last value"
-          value={pulseRates[pulseRates.length - 1]}
+          value={sensorData[0].pulseRate}
           className={classes.smallTextField}
           margin="normal"
           InputProps={{
@@ -159,9 +199,27 @@ export const PatientHealthData = () => {
           control={<Switch checked={pulseRateChecked} onChange={handlePulseRateSwitchChange} />}
           label="Show chart"
         />
+        {!pulseRateChecked?"":
+          <FormControl
+            className = {classes.formControl}
+            >
+            <InputLabel shrink={true}>View mode</InputLabel>
+            <Select
+              native
+              value={prViewMode}
+              onChange={(e)=>{setPrViewMode(e.target.value)}}
+              labelWidth={50}
+              //disabled= {!editFlag}
+              //InputLabelProps={{shrink: true}}
+            >
+              <option value={0}>Recent data</option>
+              <option value={1}>Older data</option>
+            </Select>
+          </FormControl>
+        }
         <div className={classes.container}>
           <Collapse in={pulseRateChecked} collapsedHeight="0px">
-            <DisplayChart data = {pulseRates} type = "pulseRate"/>
+            <DisplayChart data = {prViewMode == 0?recentPulseRateList:pulseRateList} type = "pulseRate" viewMode = {prViewMode}/>
           </Collapse>
         </div>
       </Container>
@@ -171,7 +229,7 @@ export const PatientHealthData = () => {
         <TextField
           id="blood-glucose"
           label = "Last value"
-          value={bloodGlucoses[bloodGlucoses.length - 1]}
+          value={sensorData[0].bloodGlucose}
           className={classes.smallTextField}
           margin="normal"
           InputProps={{
@@ -183,9 +241,27 @@ export const PatientHealthData = () => {
           control={<Switch checked={bloodGlucoseChecked} onChange={handleBloodGlucoseSwitchChange} />}
           label="Show chart"
         />
+        {!bloodGlucoseChecked?"":
+          <FormControl
+            className = {classes.formControl}
+            >
+            <InputLabel shrink={true}>View mode</InputLabel>
+            <Select
+              native
+              value={bgViewMode}
+              onChange={(e)=>{setBgViewMode(e.target.value)}}
+              labelWidth={50}
+              //disabled= {!editFlag}
+              //InputLabelProps={{shrink: true}}
+            >
+              <option value={0}>Recent data</option>
+              <option value={1}>Older data</option>
+            </Select>
+          </FormControl>
+        }
         <div className={classes.container}>
           <Collapse in={bloodGlucoseChecked} collapsedHeight="0px">
-            <DisplayChart data = {bloodGlucoses} type = "bloodGlucose"/>
+            <DisplayChart data = {bgViewMode==0?recentBloodGlucoseList:bloodGlucoseList} type = "bloodGlucose" viewMode = {bgViewMode}/>
           </Collapse>
         </div>
       </Container>
@@ -195,7 +271,7 @@ export const PatientHealthData = () => {
         <TextField
           id="blood-oxygen"
           label = "Last value"
-          value={bloodOxygens[bloodOxygens.length - 1]}
+          value={sensorData[0].bloodOxygen}
           className={classes.smallTextField}
           margin="normal"
           InputProps={{
@@ -207,9 +283,27 @@ export const PatientHealthData = () => {
           control={<Switch checked={bloodOxygenChecked} onChange={handleBloodOxygenSwitchChange} />}
           label="Show chart"
         />
+        {!bloodOxygenChecked?"":
+          <FormControl
+            className = {classes.formControl}
+            >
+            <InputLabel shrink={true}>View mode</InputLabel>
+            <Select
+              native
+              value={boViewMode}
+              onChange={(e)=>{setBoViewMode(e.target.value)}}
+              labelWidth={50}
+              //disabled= {!editFlag}
+              //InputLabelProps={{shrink: true}}
+            >
+              <option value={0}>Recent data</option>
+              <option value={1}>Older data</option>
+            </Select>
+          </FormControl>
+        }
         <div className={classes.container}>
           <Collapse in={bloodOxygenChecked} collapsedHeight="0px">
-            <DisplayChart data = {bloodOxygens} type = "bloodOxygen"/>
+            <DisplayChart data = {boViewMode==0?recentBloodOxygenList:bloodOxygenList} type = "bloodOxygen" viewMode={boViewMode}/>
           </Collapse>
         </div>
       </Container>

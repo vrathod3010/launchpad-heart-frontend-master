@@ -1,4 +1,4 @@
-import React, {useContext}from 'react';
+import React, {useContext, useEffect}from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -64,6 +64,9 @@ export const PatientInfoTabs = ()=>{
   const [value, setValue] = React.useState(0);
   const {selectedPatient} = useContext(PatientsContext);
 
+  useEffect(()=>{
+    if (selectedPatient===null) setValue(0);
+  },[selectedPatient])
   const handleChange = (event, newValue)=>{
     setValue(newValue);
   }

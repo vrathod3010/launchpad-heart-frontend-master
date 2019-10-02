@@ -17,7 +17,7 @@ class API {
   getPatients(stateHandler, responseHandler) {
     axiosInstance.get(CONSTANTS.PATIENTS)
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         stateHandler(response.data);
         responseHandler(true);
     })
@@ -26,7 +26,7 @@ class API {
   getPatientContact(patientID, stateHandler, responseHandler) {
     axiosInstance.get(replacePlaceHolder(CONSTANTS.PATIENT_CONTACT, patientID))
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         stateHandler(response.data);
         responseHandler(true);
       }).catch((error) => {
@@ -38,7 +38,7 @@ class API {
   getPatientInsurance(patientID, stateHandler, responseHandler) {
     axiosInstance.get(replacePlaceHolder(CONSTANTS.PATIENT_INSURANCE, patientID))
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         stateHandler(response.data);
         responseHandler(true);
       }).catch((error) => {
@@ -50,7 +50,7 @@ class API {
   getPatientSensorData(patientID, stateHandler, responseHandler) {
     axiosInstance.get(replacePlaceHolder(CONSTANTS.PATIENT_SENSOR, patientID))
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         stateHandler(response.data);
         responseHandler(true);
       }).catch((error) => {
@@ -64,7 +64,7 @@ class API {
         callback();
       })
       .catch((error)=>{
-        console.log(error);
+        //console.log(error);
         errCallback(error);
       });
   }
@@ -75,7 +75,7 @@ class API {
         callback();
       })
       .catch((error)=>{
-        console.log(error);
+        //console.log(error);
         errCallback(error);
       });
   }
@@ -86,7 +86,7 @@ class API {
         callback();
       })
       .catch((error)=>{
-        console.log(error);
+        //console.log(error);
         errCallback(error);
       });
   }
@@ -101,7 +101,7 @@ class API {
   createPatient(newPatient, callback, errCallback) {
     axiosInstance.post(CONSTANTS.PATIENTS, newPatient)
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         callback();
         //firstCallback(response.data.id,)
       })
@@ -116,7 +116,7 @@ class API {
         callback();
       })
       .catch((error)=>{
-        console.log(error);
+        //console.log(error);
         errCallback(error);
       });
   }
@@ -127,7 +127,7 @@ class API {
         callback();
       })
       .catch((error)=>{
-        console.log(error);
+        //console.log(error);
         errCallback(error);
       });
   }

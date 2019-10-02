@@ -113,7 +113,7 @@ export const PatientHealthData = () => {
   useEffect(()=>{
     if (selectedPatient!==null)
     {
-      console.log("111111111111111111");
+      //console.log("111111111111111111");
       setSensorResponse(false);
       API.getPatientSensorData(selectedPatient.id, setSensorData, setSensorResponse);
     }

@@ -105,21 +105,32 @@ class API {
         callback();
         //firstCallback(response.data.id,)
       })
-      .catch(()=>{
-        errCallback();
+      .catch((error)=>{
+        errCallback(error);
       })
   }
   
-  // createContact(, patientID, callback, errCallback) {
-  //   axiosInstance.put(replacePlaceHolder(CONSTANTS.PATIENT_CONTACT, patientID), updatedContact)
-  //     .then(()=>{
-  //       callback();
-  //     })
-  //     .catch((error)=>{
-  //       console.log(error);
-  //       errCallback(error);
-  //     });
-  // }
+  createContact(newContact, patientID, callback, errCallback) {
+    axiosInstance.post(replacePlaceHolder(CONSTANTS.PATIENT_CONTACT, patientID), newContact)
+      .then(()=>{
+        callback();
+      })
+      .catch((error)=>{
+        console.log(error);
+        errCallback(error);
+      });
+  }
+
+  createInsurance(newInsurance, patientID, callback, errCallback) {
+    axiosInstance.post(replacePlaceHolder(CONSTANTS.PATIENT_INSURANCE, patientID), newInsurance)
+      .then(()=>{
+        callback();
+      })
+      .catch((error)=>{
+        console.log(error);
+        errCallback(error);
+      });
+  }
 }
 const instance = new API();
 export default instance;

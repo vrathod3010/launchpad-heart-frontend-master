@@ -40,8 +40,8 @@ const useStyles = makeStyles(theme => ({
   },
   button:{
     marginTop: 50,
-    // marginLeft:'35%',
-    width: '100%'
+    marginLeft:'25%',
+    width: '50%'
   },
   headerButton: {
     margin: theme.spacing(1),
@@ -110,18 +110,19 @@ export const PatientPersonalInfomation = () =>{
 
   //only turn off edit mode if all info is updated successfully
   useEffect(()=>{
-    if(updateIdentitySuccess && updateContactSuccess)
+    //console.log(updateIdentitySuccess + " " + updateContactSuccess);
+    if(updateIdentitySuccess && updateContactSuccess && updateInsuranceSuccess)
       setEditFlag(false);
   }, [updateIdentitySuccess, updateContactSuccess, updateInsuranceSuccess])
 
   useEffect(()=>{
-    console.log("use effect 111111111");
+    //console.log("use effect 111111111");
     setIdentityInfo();
     setContactInfo();
     setInsuranceInfo();
     if (selectedPatient!==null)
     {
-      console.log("setIdentity & contact & insurance");
+      //console.log("setIdentity & contact & insurance");
       //setIdentityInfo();
       setContactResponse(false);
       setInsuranceResponse(false);
@@ -178,8 +179,10 @@ export const PatientPersonalInfomation = () =>{
 
   const updatePatientInfo = () => {
     updateIdentity();
-    updateContact();
-    updateInsurance();
+    if (contact!==null) updateContact();
+    else createNewContact();
+    if (insurance!=null) updateInsurance();
+    else createNewInsurance();
   }
 
   const updateIdentity = () => {
@@ -205,7 +208,7 @@ export const PatientPersonalInfomation = () =>{
       },
       (error)=>{ //errCallback
         setUpdateIdentitySuccess(false);
-        setUpdateMessage("Update error. Please check all fields again");
+        setUpdateMessage("Update error. Error detail:" + error.response.data.error.message);
       })
   }
 
@@ -229,7 +232,7 @@ export const PatientPersonalInfomation = () =>{
       },
       (error)=>{ //errCallback
         setUpdateContactSuccess(false);
-        setUpdateMessage("Update error. Please check all fields again");
+        setUpdateMessage("Update error. Error detail: " + error.response.data.error.message);
       })
     
   }
@@ -248,7 +251,7 @@ export const PatientPersonalInfomation = () =>{
       },
       (error)=>{ //errCallback
         setUpdateInsuranceSuccess(false);
-        setUpdateMessage("Update error. Please check all fields again");
+        setUpdateMessage("Update error. Error detail: " + error.response.data.error.message);
       })
   }
 
@@ -274,18 +277,56 @@ export const PatientPersonalInfomation = () =>{
       setRefresh(true);
       setIdentityInfo();
       setUpdateMessage("");
-    }, () => {
-      setUpdateMessage("Can not create new patient. Please check all fields again");
+    }, (error) => {
+      setUpdateMessage("Can not create new patient. Error detail: " + error.response.data.error.message);
     }) 
   }
 
-  const createNewIdentity = () => {}
-  const createNewContact = () => {}
-  const createNewInsurance = () => {}
+  const createNewContact = () => {
+    console.log("create new Contact");
+    let newContact = {};
+    newContact.address = contactAddress;
+    newContact.suburb = contactSuburb;
+    newContact.postcode = contactPostcode;
+    newContact.state = contactState;
+    newContact.country = contactCountry;
+    newContact.homePhone = contactHomePhone;
+    newContact.mobileNumber = contactMobileNumber;
+    newContact.email = contactEmail;
+    newContact.emergencyContact = contactEmergencyContact;
+    newContact.emergencyPhone = contactEmergencyPhone;
+    API.createContact(newContact, selectedPatient.id,
+      () =>{ //callback
+        setContact(newContact);
+        setUpdateContactSuccess(true);
+      },
+      (error)=>{ //errCallback
+        setUpdateContactSuccess(false);
+        setUpdateMessage("Update error. Error detail: " + error.response.data.error.message);
+      })
+    
+  }
+  const createNewInsurance = () => {
+    console.log("createNewInsurance");
+    let newInsurance = {};
+    newInsurance.insuranceProvider = insuranceProvider;
+    newInsurance.insuranceNumber = insuranceNumber;
+    newInsurance.effectiveDate = insuranceEffectiveDate;
+    newInsurance.expiryDate = insuranceExpiryDate;
+    API.createInsurance(newInsurance, selectedPatient.id,
+      () =>{ //callback
+        setInsurance(newInsurance);
+        setUpdateInsuranceSuccess(true);
+      },
+      (error)=>{ //errCallback
+        setUpdateInsuranceSuccess(false);
+        setUpdateMessage("Update error. Error detail: " + error.response.data.error.message);
+      })
+  }
 
-  console.log("PatientPersonalInfomation");
-  console.log(selectedPatient);
-  console.log(contactResponse);
+  // console.log("PatientPersonalInfomation");
+  // console.log(selectedPatient);
+  // console.log(contactResponse);
   //handle first name change
   return (
     <div>
@@ -663,7 +704,7 @@ export const PatientPersonalInfomation = () =>{
       }
       {!editFlag?"":      
       <Grid container justify="center" spacing = {1}>
-        <Grid item xs = {3}>
+        <Grid item xs = {6}>
           <Button variant="contained" color="primary" 
             className={classes.button}
             onClick={selectedPatient===null?createNewPatient:updatePatientInfo}>

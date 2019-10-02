@@ -113,6 +113,7 @@ export const PatientHealthData = () => {
     {
       //console.log("111111111111111111");
       setSensorResponse(false);
+      //setSensorData([]); //incase no sensor data can not be get from other patients
       API.getPatientSensorData(selectedPatient.id, setSensorData, setSensorResponse);
     }
     else
@@ -134,7 +135,7 @@ export const PatientHealthData = () => {
   },[minutes])
 
   useEffect(()=>{
-    if (sensorData.length !== 0)
+    //if (sensorData.length !== 0)
       SetData(sensorData);
   },[sensorData])
 
@@ -192,7 +193,7 @@ export const PatientHealthData = () => {
         <TextField
           id="pulse-rate"
           label = "Last value"
-          value={sensorData[0].pulseRate}
+          value={sensorData.length == 0?"n/a":sensorData[0].pulseRate}
           className={classes.smallTextField}
           margin="normal"
           InputProps={{
@@ -234,7 +235,7 @@ export const PatientHealthData = () => {
         <TextField
           id="blood-glucose"
           label = "Last value"
-          value={sensorData[0].bloodGlucose}
+          value={sensorData.length == 0?"n/a":sensorData[0].bloodGlucose}
           className={classes.smallTextField}
           margin="normal"
           InputProps={{
@@ -276,7 +277,7 @@ export const PatientHealthData = () => {
         <TextField
           id="blood-oxygen"
           label = "Last value"
-          value={sensorData[0].bloodOxygen}
+          value={sensorData.length == 0?"n/a":sensorData[0].bloodOxygen}
           className={classes.smallTextField}
           margin="normal"
           InputProps={{

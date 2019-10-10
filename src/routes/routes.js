@@ -4,7 +4,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { LoginContext } from 'contexts'
-import { Login, Register, Home, User, PatientContainer } from 'views'
+import { Login, Register, Home, User, PatientContainer,CarePlan } from 'views'
 import { Layout } from '../layout';
 
 export const AppRoutes = () => {
@@ -25,6 +25,7 @@ export const AppRoutes = () => {
         <Route exact path='/home' render={() => ((redirectToLogin ? <Redirect to={{ pathname: '/login' }} /> : <Home />))} />
         <Route exact path='/user' render={() => ((redirectToLogin ? <Redirect to={{ pathname: '/login' }} /> : <User />))} />
         <Route exact path='/patient' render={() => ((redirectToLogin ? <Redirect to={{ pathname: '/login' }} /> : <PatientContainer />))} />
+				<Route exact path='/carePlan' render={() => ((redirectToLogin ? <Redirect to={{ pathname: '/login' }} /> : <CarePlan />))} />
       </Layout>
     </Switch>
   )

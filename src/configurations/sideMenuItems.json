@@ -13,6 +13,13 @@
       "icon": "accessible",
       "controller": "patient",
       "customTitle": "Patients Information"
+		},
+		{
+      "name": "Care Plan",
+      "type": "button",
+      "icon": "assignment",
+      "controller": "carePlan",
+      "customTitle": "Care Plan"
     }
   ]
 }
